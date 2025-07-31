@@ -57,13 +57,11 @@
     </form>
 
     <div id="results" style="margin-top: 20px;"></div>
-    <button id="resetBtn">Reset Poll</button>
   </div>
 
   <script>
     const form = document.getElementById('pollForm');
     const resultsDiv = document.getElementById('results');
-    const resetBtn = document.getElementById('resetBtn');
 
     const defaultVotes = { Pancakes: 0, "Yorkshire Puddings": 0 };
 
@@ -112,13 +110,6 @@
       saveVotes(votes);
       renderResults();
       form.style.display = 'none';
-    });
-
-    resetBtn.addEventListener('click', () => {
-      localStorage.removeItem('votes');
-      form.reset();
-      form.style.display = 'block';
-      renderResults();
     });
 
     // Initial rendering
