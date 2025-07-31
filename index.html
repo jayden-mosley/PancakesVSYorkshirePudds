@@ -2,23 +2,76 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Vote: Pancakes vs. Yorkshire Puddings</title>
+  <title>Poll: Pancakes vs Yorkshire Puddings</title>
   <style>
     body { font-family: Arial, sans-serif; padding: 2em; background: #f0f0f0; }
     .container { background: white; padding: 2em; max-width: 400px; margin: auto; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
     h2 { text-align: center; }
-    button { display: block; margin: 1em auto; padding: 10px 20px; font-size: 16px; }
+    button { margin-top: 1em; padding: 10px 20px; font-size: 16px; }
+    .bar { background: #ddd; border-radius: 4px; overflow: hidden; margin: 10px 0; }
+    .fill { background: #4caf50; height: 20px; color: white; text-align: center; }
   </style>
 </head>
 <body>
   <div class="container">
     <h2>What do you prefer?</h2>
-    <form action="submit_poll.php" method="POST">
+    <form id="pollForm">
       <label><input type="radio" name="vote" value="Pancakes" required> Pancakes</label><br><br>
       <label><input type="radio" name="vote" value="Yorkshire Puddings"> Yorkshire Puddings</label><br><br>
-      <button type="submit">Submit Vote</button>
+      <button type="submit">Vote</button>
     </form>
-    <p style="text-align: center;"><a href="results.php">View Results</a></p>
+
+    <div id="results" style="margin-top: 20px;"></div>
   </div>
+
+  <script>
+    const form = document.getElementById('pollForm');
+    const resultsDiv = document.getElementById('results');
+
+    const defaultVotes = { Pancakes: 0, "Yorkshire Puddings": 0 };
+
+    function loadVotes() {
+      const stored = localStorage.getItem('votes');
+      return stored ? JSON.parse(stored) : defaultVotes;
+    }
+
+    function saveVotes(votes) {
+      localStorage.setItem('votes', JSON.stringify(votes));
+    }
+
+    function renderResults() {
+      const votes = loadVotes();
+      const total = votes['Pancakes'] + votes['Yorkshire Puddings'];
+      if (total === 0) {
+        resultsDiv.innerHTML = '<p>No votes yet.</p>';
+        return;
+      }
+
+      const pancakesPercent = Math.round((votes['Pancakes'] / total) * 100);
+      const yorkshirePercent = 100 - pancakesPercent;
+
+      resultsDiv.innerHTML = `
+        <h3>Results:</h3>
+        <p><strong>Pancakes:</strong> ${votes['Pancakes']} votes (${pancakesPercent}%)</p>
+        <div class="bar"><div class="fill" style="width:${pancakesPercent}%">${pancakesPercent}%</div></div>
+
+        <p><strong>Yorkshire Puddings:</strong> ${votes['Yorkshire Puddings']} votes (${yorkshirePercent}%)</p>
+        <div class="bar"><div class="fill" style="width:${yorkshirePercent}%">${yorkshirePercent}%</div></div>
+      `;
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const vote = formData.get('vote');
+      const votes = loadVotes();
+      votes[vote]++;
+      saveVotes(votes);
+      renderResults();
+      form.style.display = 'none';
+    });
+
+    renderResults();
+  </script>
 </body>
 </html>
