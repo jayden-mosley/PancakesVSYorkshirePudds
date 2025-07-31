@@ -2,46 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Pancakes vs. Yorkshire Puddings</title>
+  <title>Vote: Pancakes vs. Yorkshire Puddings</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      padding: 2em;
-      background-color: #f9f9f9;
-    }
-    .poll-container {
-      max-width: 400px;
-      margin: auto;
-      background: white;
-      padding: 1em;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    h2 {
-      text-align: center;
-    }
-    button {
-      display: block;
-      margin: 1em auto;
-      padding: 10px 20px;
-      font-size: 1em;
-    }
+    body { font-family: Arial, sans-serif; padding: 2em; background: #f0f0f0; }
+    .container { background: white; padding: 2em; max-width: 400px; margin: auto; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    h2 { text-align: center; }
+    button { display: block; margin: 1em auto; padding: 10px 20px; font-size: 16px; }
   </style>
 </head>
 <body>
-  <div class="poll-container">
-    <h2>Which do you prefer?</h2>
+  <div class="container">
+    <h2>What do you prefer?</h2>
     <form action="submit_poll.php" method="POST">
-      <label>
-        <input type="radio" name="preference" value="Pancakes" required>
-        Pancakes
-      </label><br><br>
-      <label>
-        <input type="radio" name="preference" value="Yorkshire Puddings">
-        Yorkshire Puddings
-      </label><br><br>
-      <button type="submit">Vote</button>
+      <label><input type="radio" name="vote" value="Pancakes" required> Pancakes</label><br><br>
+      <label><input type="radio" name="vote" value="Yorkshire Puddings"> Yorkshire Puddings</label><br><br>
+      <button type="submit">Submit Vote</button>
     </form>
+    <p style="text-align: center;"><a href="results.php">View Results</a></p>
   </div>
 </body>
 </html>
